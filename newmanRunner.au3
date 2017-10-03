@@ -242,6 +242,9 @@ Func Refresh()
 	GUICtrlSetData($global, _ArrayToString($envList,"|",1) , $defaultGlobal)
 	GUICtrlSetData($template, _ArrayToString($templateList,"|",1) , $defaultTemplate)
 	GUICtrlSetData($reportPath,$path)
+	GUICtrlSetState($ckbFolders, $GUI_CHECKED)
+	GUICtrlSetState($grpFolders, $GUI_DISABLE)
+	GUICtrlSetState($parallel, $GUI_DISABLE)
 	getFolders()
 	setFolderTree()
 	updateNewmanCmd()
@@ -313,19 +316,25 @@ Func setFolderTree()
 		Local $fdr = $list[$i]
 
 		if StringInStr($fdr,'/') = 0 Then
-			$itemid = _GUICtrlTreeView_Add($allFolders, 0, StringReplace($fdr,"0x2f","/"), 0, 0)
+			$itemid = _GUICtrlTreeView_Add($allFolders, 0, correctFldrName($fdr), 0, 0)
 			$tree.ADD ($fdr, $itemid)
 		Else
 			$parent = StringMid($fdr,1,StringInStr($fdr,'/',0,-1)-1)
 			$child = StringMid($fdr,StringInStr($fdr,'/',0,-1)+1)
 			$parentTree = $tree.Item ($parent)
-			$itemid = _GUICtrlTreeView_AddChild($allFolders, $parentTree, StringReplace($child,"0x2f","/"), 0, 0)
+			$itemid = _GUICtrlTreeView_AddChild($allFolders, $parentTree, correctFldrName($child), 0, 0)
 			$tree.ADD ($fdr, $itemid)
 		EndIf
 	Next
 
 ;~ 	_GUICtrlTreeView_Expand($allFolders)
 	scrollToTop()
+EndFunc
+
+Func correctFldrName($name)
+	$name = StringReplace($name,"0x2f","/")
+	$name = StringRegExpReplace($name,'O\d+_','',1)
+	return $name
 EndFunc
 
 Func scrollToTop()
