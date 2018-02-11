@@ -1,3 +1,6 @@
+// Uses nodejs 'pkg' to compile to exe
+// https://github.com/zeit/pkg
+
 const fs = require('fs');
 
 fs.writeFileSync("args.dat", process.argv.join(','));
@@ -34,10 +37,10 @@ fs.writeFileSync(tgtFile, paths.join('\r\n'));
 
 
 function getParentTree(fld) {
-    var path = fld.name.replace('/', '0x2f');
+    var path = fld.name.replace(/\//g, '0x2f');
     while (fld.parent) {
         fld = fld.parent;
-        path = fld.name.replace('/', '0x2f') + '/' + path;
+        path = fld.name.replace(/\//g, '0x2f') + '/' + path;
     }
     return path;
 }

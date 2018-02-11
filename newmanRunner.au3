@@ -19,6 +19,7 @@ Opt("SendKeyDelay",0)
 Opt("SendKeyDownDelay",0)
 Global Const $CB_CLICKED = -24
 Global Const $TEST_MODE = False
+Global Const $LOG_LEVEL = 9
 
 #Region ### START Koda GUI section ### Form=c:\users\aadm221\documents\workspace\esb-automation-tests_git\newmanrunner\runner.kxf
 $runner = GUICreate("Newman Runner", 653, 798, 190, 109)
@@ -37,10 +38,10 @@ $btnKeyFile = GUICtrlCreateButton("F", 560, 456, 33, 25)
 $btnKeyClear = GUICtrlCreateButton("Clear", 598, 456, 41, 25)
 $preCmd = GUICtrlCreateEdit("", 32, 512, 569, 65, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
 GUICtrlSetData(-1, "preCmd")
-$cmd = GUICtrlCreateEdit("", 32, 624, 577, 121, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
+$cmd = GUICtrlCreateEdit("", 32, 640, 577, 121, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
 GUICtrlSetData(-1, "cmd")
-$btnRun = GUICtrlCreateButton("Run", 256, 760, 113, 25)
-$btnCopy = GUICtrlCreateButton("Copy", 504, 744, 105, 17)
+$btnRun = GUICtrlCreateButton("Run", 288, 768, 113, 25)
+$btnCopy = GUICtrlCreateButton("Copy", 504, 760, 105, 17)
 $btnRefresh = GUICtrlCreateButton("Refresh", 552, 0, 97, 25)
 $lblCollection = GUICtrlCreateLabel("Collection", 8, 56, 63, 20)
 $lblFolder = GUICtrlCreateLabel("Folder", 8, 96, 43, 20)
@@ -49,28 +50,31 @@ $lblGlobal = GUICtrlCreateLabel("Global", 8, 264, 44, 20)
 $lblReport = GUICtrlCreateLabel("Report Type", 8, 304, 80, 20)
 $lblTemplate = GUICtrlCreateLabel("HTML Template", 8, 376, 102, 20)
 $lblPreCmd = GUICtrlCreateLabel("Pre Commands to Run", 32, 496, 138, 20, $WS_CLIPSIBLINGS)
-$lblNewmanCmd = GUICtrlCreateLabel("Newman Cmd", 32, 608, 88, 20, $WS_CLIPSIBLINGS)
+$lblNewmanCmd = GUICtrlCreateLabel("Newman Cmd", 32, 616, 88, 20, $WS_CLIPSIBLINGS)
 $sslKey = GUICtrlCreateInput("", 112, 456, 433, 24)
 $lblCert = GUICtrlCreateLabel("SSL Cert File", 8, 416, 81, 20)
 $lblKey = GUICtrlCreateLabel("SSL Key File", 8, 456, 80, 20)
 $settings = GUICtrlCreateCombo("", 112, 0, 433, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
-$lblBasePathValue = GUICtrlCreateLabel("Base Path", 112, 32, 434, 20)
+$lblBasePathValue = GUICtrlCreateLabel("Base Path", 112, 32, 66, 20)
 $lblSettings = GUICtrlCreateLabel("Settings", 8, 0, 52, 20)
 $lblBasePath = GUICtrlCreateLabel("Base Path", 8, 32, 66, 20)
 $sslCert = GUICtrlCreateInput("", 112, 416, 433, 24)
 $btnUnselect = GUICtrlCreateButton("Unselect All", 552, 88, 97, 25)
 $btnUndo = GUICtrlCreateButton("Undo", 552, 200, 41, 17)
-$ckbFolders = GUICtrlCreateCheckbox("Separate Command for each Folder", 136, 608, 241, 17)
+$ckbFolders = GUICtrlCreateCheckbox("Separate Command for each Folder", 136, 616, 241, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 $btnCollapse = GUICtrlCreateButton("Collapse All", 552, 176, 97, 17)
 $btnExpand = GUICtrlCreateButton("Expand All", 552, 152, 97, 17)
 $lblReportPath = GUICtrlCreateLabel("Report Folder", 8, 336, 99, 20)
 $repPathExt = GUICtrlCreateInput("\newman", 480, 328, 65, 24, BitOR($GUI_SS_DEFAULT_INPUT,$ES_READONLY))
-$Label1 = GUICtrlCreateLabel("Group Folders", 416, 608, 90, 20, $WS_CLIPSIBLINGS)
-$grpFolders = GUICtrlCreateInput("", 384, 600, 25, 24)
+$Label1 = GUICtrlCreateLabel("Group Folders", 520, 592, 90, 20, $WS_CLIPSIBLINGS)
+$grpFolders = GUICtrlCreateInput("", 488, 584, 25, 24)
 GUICtrlSetState(-1, $GUI_DISABLE)
-$Label2 = GUICtrlCreateLabel("Parallel", 560, 608, 50, 20, $WS_CLIPSIBLINGS)
-$parallel = GUICtrlCreateInput("", 528, 600, 25, 24)
+$Label2 = GUICtrlCreateLabel("Parallel", 520, 616, 50, 20, $WS_CLIPSIBLINGS)
+$parallel = GUICtrlCreateInput("", 488, 608, 25, 24)
+GUICtrlSetState(-1, $GUI_DISABLE)
+$ckbSeq = GUICtrlCreateCheckbox("Sequential", 376, 616, 97, 17)
+GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlSetState(-1, $GUI_DISABLE)
 #EndRegion ### END Koda GUI section ###
 
@@ -100,10 +104,11 @@ _GUIImageList_AddIcon($hImage, "shell32.dll", 110)
 _GUIImageList_AddIcon($hImage, "shell32.dll", 131)
 _GUICtrlTreeView_SetNormalImageList($allFolders, $hImage)
 
+GUISetState(@SW_SHOW)
 Refresh()
 
 GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
-GUISetState(@SW_SHOW)
+
 
 While 1
 	$nMsg = GUIGetMsg()
@@ -128,10 +133,14 @@ While 1
 			If (GUICtrlRead($ckbFolders) = $GUI_UNCHECKED) Then
 				GUICtrlSetState($grpFolders, $GUI_ENABLE)
 				GUICtrlSetState($parallel, $GUI_ENABLE)
+				GUICtrlSetState($ckbSeq, $GUI_ENABLE)
 			Else
 				GUICtrlSetState($grpFolders, $GUI_DISABLE)
 				GUICtrlSetState($parallel, $GUI_DISABLE)
+				GUICtrlSetState($ckbSeq, $GUI_DISABLE)
 			EndIf
+			updateNewmanCmd()
+		case $ckbSeq
 			updateNewmanCmd()
 		Case $btnUnselect
 			_ArrayAdd($folderHistory, "ALL" & "," & "UNSELECT")
@@ -245,6 +254,7 @@ Func Refresh()
 	GUICtrlSetState($ckbFolders, $GUI_CHECKED)
 	GUICtrlSetState($grpFolders, $GUI_DISABLE)
 	GUICtrlSetState($parallel, $GUI_DISABLE)
+	GUICtrlSetState($ckbSeq, $GUI_DISABLE)
 	getFolders()
 	setFolderTree()
 	updateNewmanCmd()
@@ -314,15 +324,26 @@ Func setFolderTree()
 	; Create Tree View
 	For $i=1 to $list[0]
 		Local $fdr = $list[$i]
-
+		logger($fdr,8)
 		if StringInStr($fdr,'/') = 0 Then
 			$itemid = _GUICtrlTreeView_Add($allFolders, 0, correctFldrName($fdr), 0, 0)
+			logger("  Itemid: " & $itemid,8)
 			$tree.ADD ($fdr, $itemid)
 		Else
 			$parent = StringMid($fdr,1,StringInStr($fdr,'/',0,-1)-1)
 			$child = StringMid($fdr,StringInStr($fdr,'/',0,-1)+1)
 			$parentTree = $tree.Item ($parent)
 			$itemid = _GUICtrlTreeView_AddChild($allFolders, $parentTree, correctFldrName($child), 0, 0)
+			logger("  Parent: " & $parent & " ITEMID: " & $parentTree,8)
+			logger("  Child: " & correctFldrName($child) & " ITEMID: " & $itemid,8)
+
+			;TODO: Find parent WILL FAIL if this case
+			;Handle Duplicate folder names
+			;TODO: Replace RANDOM with function to incrementally check tree for available number
+			if $tree.Exists ($fdr) = True Then
+				$fdr = $fdr & "(" & Random(1,99) & ")"
+			EndIf
+
 			$tree.ADD ($fdr, $itemid)
 		EndIf
 	Next
@@ -362,6 +383,7 @@ Func updateNewmanCmd()
 	$multiFolderCmds = BitAND(GUICtrlRead($ckbFolders), $GUI_CHECKED)
 	$groupsCmd = ""
 	$parallelCmd = ""
+	$seqCmd = ""
 
 	Local $cmdName = "newman-ext "
 	If ($multiFolderCmds = True) Then
@@ -383,15 +405,18 @@ Func updateNewmanCmd()
 		If (GUICtrlRead($parallel) <> "") Then
 			$parallelCmd = " --parallel " & GUICtrlRead($parallel)
 		EndIf
+		If (GUICtrlRead($ckbSeq) = $GUI_CHECKED AND GUICtrlGetState($ckbSeq) = ($GUI_ENABLE+$GUI_SHOW) ) Then
+			$seqCmd = " --seq "
+		EndIf
 	EndIf
 
-	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $selectedFolder
+	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder
 	Local $newmanCmds[1] = [$newmanCmd]
 
 	For $i=1 to UBound($selectedFolders)-1
 		$selectedFolder =  " --folder " & """" & $selectedFolders[$i] & """"
 		if ($multiFolderCmds = True) Then
-			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $selectedFolder
+			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder
 			_ArrayAdd($newmanCmds,$newmanCmd)
 		Else
 			$newmanCmd = $newmanCmd & $selectedFolder
@@ -616,3 +641,9 @@ func _Process2Win($pid)
     next
     return -1
 endfunc
+
+func logger($msg, $lvl)
+	If ($lvl < $LOG_LEVEL) Then
+		ConsoleWrite($msg & @CRLF)
+	EndIf
+EndFunc

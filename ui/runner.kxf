@@ -193,7 +193,7 @@
 		<object type="TAEdit" name="cmd">
 			<properties>
 				<property name="Left" vt="Int8">32</property>
-				<property name="Top" vt="Int16">624</property>
+				<property name="Top" vt="Int16">640</property>
 				<property name="Width" vt="Int16">577</property>
 				<property name="Height" vt="Int8">121</property>
 				<property name="Lines.Strings" vt="List">
@@ -210,8 +210,8 @@
 		</object>
 		<object type="TAButton" name="btnRun">
 			<properties>
-				<property name="Left" vt="Int16">256</property>
-				<property name="Top" vt="Int16">760</property>
+				<property name="Left" vt="Int16">288</property>
+				<property name="Top" vt="Int16">768</property>
 				<property name="Width" vt="Int8">113</property>
 				<property name="Height" vt="Int8">25</property>
 				<property name="Caption" vt="String">Run</property>
@@ -259,7 +259,7 @@
 		<object type="TALabel" name="lblNewmanCmd">
 			<properties>
 				<property name="Left" vt="Int8">32</property>
-				<property name="Top" vt="Int16">608</property>
+				<property name="Top" vt="Int16">616</property>
 				<property name="Width" vt="Int8">88</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">Newman Cmd</property>
@@ -420,7 +420,7 @@
 			<properties>
 				<property name="Left" vt="Int8">112</property>
 				<property name="Top" vt="Int8">32</property>
-				<property name="Width" vt="Int16">434</property>
+				<property name="Width" vt="Int8">66</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">Base Path</property>
 				<property name="TabOrder" vt="Int8">30</property>
@@ -507,7 +507,7 @@
 		<object type="TACheckbox" name="ckbFolders">
 			<properties>
 				<property name="Left" vt="Int16">136</property>
-				<property name="Top" vt="Int16">608</property>
+				<property name="Top" vt="Int16">616</property>
 				<property name="Width" vt="Int16">241</property>
 				<property name="Height" vt="Int8">17</property>
 				<property name="Caption" vt="String">Separate Command for each Folder</property>
@@ -625,8 +625,8 @@
 		</object>
 		<object type="TALabel" name="Label1">
 			<properties>
-				<property name="Left" vt="Int16">416</property>
-				<property name="Top" vt="Int16">608</property>
+				<property name="Left" vt="Int16">520</property>
+				<property name="Top" vt="Int16">592</property>
 				<property name="Width" vt="Int8">90</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">Group Folders</property>
@@ -640,8 +640,8 @@
 		</object>
 		<object type="TAInput" name="grpFolders">
 			<properties>
-				<property name="Left" vt="Int16">384</property>
-				<property name="Top" vt="Int16">600</property>
+				<property name="Left" vt="Int16">488</property>
+				<property name="Top" vt="Int16">584</property>
 				<property name="Width" vt="Int8">25</property>
 				<property name="Height" vt="Int8">24</property>
 				<property name="Enabled" vt="False">False</property>
@@ -654,8 +654,8 @@
 		</object>
 		<object type="TALabel" name="Label2">
 			<properties>
-				<property name="Left" vt="Int16">560</property>
-				<property name="Top" vt="Int16">608</property>
+				<property name="Left" vt="Int16">520</property>
+				<property name="Top" vt="Int16">616</property>
 				<property name="Width" vt="Int8">50</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">Parallel</property>
@@ -669,8 +669,8 @@
 		</object>
 		<object type="TAInput" name="parallel">
 			<properties>
-				<property name="Left" vt="Int16">528</property>
-				<property name="Top" vt="Int16">600</property>
+				<property name="Left" vt="Int16">488</property>
+				<property name="Top" vt="Int16">608</property>
 				<property name="Width" vt="Int8">25</property>
 				<property name="Height" vt="Int8">24</property>
 				<property name="Enabled" vt="False">False</property>
@@ -684,7 +684,7 @@
 		<object type="TAButton" name="btnCopy">
 			<properties>
 				<property name="Left" vt="Int16">504</property>
-				<property name="Top" vt="Int16">744</property>
+				<property name="Top" vt="Int16">760</property>
 				<property name="Width" vt="Int8">105</property>
 				<property name="Height" vt="Int8">17</property>
 				<property name="Caption" vt="String">Copy</property>
@@ -693,6 +693,22 @@
 				<property name="CtrlStyle" vt="Int32">1342373888</property>
 				<property name="CtrlExStyle" vt="Int8">0</property>
 				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TACheckbox" name="ckbSeq">
+			<properties>
+				<property name="Left" vt="Int16">376</property>
+				<property name="Top" vt="Int16">616</property>
+				<property name="Width" vt="Int8">97</property>
+				<property name="Height" vt="Int8">17</property>
+				<property name="Caption" vt="String">Sequential</property>
+				<property name="Checked" vt="True">True</property>
+				<property name="State" vt="Ident">cbChecked</property>
+				<property name="TabOrder" vt="Int8">45</property>
+				<property name="CtrlStyle" vt="Int32">1342242819</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockHeight</property>
 			</properties>
 			<components/>
 		</object>
