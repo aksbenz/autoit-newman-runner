@@ -14,12 +14,13 @@
 #include <GuiScrollBars.au3>
 #include <GuiRichEdit.au3>
 #include <String.au3>
+#include <GuiEdit.au3>
 
 Opt("SendKeyDelay",0)
 Opt("SendKeyDownDelay",0)
 Global Const $CB_CLICKED = -24
 Global Const $TEST_MODE = False
-Global Const $LOG_LEVEL = 9
+Global Const $LOG_LEVEL = 1
 
 #Region ### START Koda GUI section ### Form=c:\users\aadm221\documents\workspace\esb-automation-tests_git\newmanrunner\runner.kxf
 $runner = GUICreate("Newman Runner", 653, 798, 190, 109)
@@ -38,6 +39,7 @@ $btnKeyFile = GUICtrlCreateButton("F", 560, 456, 33, 25)
 $btnKeyClear = GUICtrlCreateButton("Clear", 598, 456, 41, 25)
 $preCmd = GUICtrlCreateEdit("", 32, 512, 569, 65, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
 GUICtrlSetData(-1, "preCmd")
+$tagIncTest = GUICtrlCreateInput("", 112, 584, 361, 24)
 $cmd = GUICtrlCreateEdit("", 32, 640, 577, 121, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
 GUICtrlSetData(-1, "cmd")
 $btnRun = GUICtrlCreateButton("Run", 288, 768, 113, 25)
@@ -50,7 +52,7 @@ $lblGlobal = GUICtrlCreateLabel("Global", 8, 264, 44, 20)
 $lblReport = GUICtrlCreateLabel("Report Type", 8, 304, 80, 20)
 $lblTemplate = GUICtrlCreateLabel("HTML Template", 8, 376, 102, 20)
 $lblPreCmd = GUICtrlCreateLabel("Pre Commands to Run", 32, 496, 138, 20, $WS_CLIPSIBLINGS)
-$lblNewmanCmd = GUICtrlCreateLabel("Newman Cmd", 32, 616, 88, 20, $WS_CLIPSIBLINGS)
+$lblNewmanCmd = GUICtrlCreateLabel("Newman Cmd", 8, 616, 88, 20, $WS_CLIPSIBLINGS)
 $sslKey = GUICtrlCreateInput("", 112, 456, 433, 24)
 $lblCert = GUICtrlCreateLabel("SSL Cert File", 8, 416, 81, 20)
 $lblKey = GUICtrlCreateLabel("SSL Key File", 8, 456, 80, 20)
@@ -76,6 +78,7 @@ GUICtrlSetState(-1, $GUI_DISABLE)
 $ckbSeq = GUICtrlCreateCheckbox("Sequential", 376, 616, 97, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlSetState(-1, $GUI_DISABLE)
+$lblTagIncTest = GUICtrlCreateLabel("Tag Include Test", 8, 584, 105, 20)
 #EndRegion ### END Koda GUI section ###
 
 GUICtrlSetData($preCmd, "")
@@ -105,10 +108,14 @@ _GUIImageList_AddIcon($hImage, "shell32.dll", 131)
 _GUICtrlTreeView_SetNormalImageList($allFolders, $hImage)
 
 GUISetState(@SW_SHOW)
+$newmanRunnerHandle = WinGetHandle("Newman Runner")
 Refresh()
+ConsoleWrite("Newman Handle: " & $newmanRunnerHandle & " - " & ControlGetFocus($newmanRunnerHandle))
 
 GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 
+$prevTagLength = 0
+$curTagLength = 0
 
 While 1
 	$nMsg = GUIGetMsg()
@@ -189,6 +196,8 @@ While 1
 			GUICtrlSetData($reportPath,$path)
 		Case $btnCopy
 			ClipPut(_GUICtrlRichEdit_GetText($cmd))
+		Case $tagIncTest
+			updateNewmanCmd()
 	EndSwitch
 	If $folderClicked = 1 Then
 		$folderClicked = 0
@@ -197,6 +206,12 @@ While 1
 ;~ 		 MsgBox($MB_SYSTEMMODAL, "Information", StringFormat("Item handle for index %d: %s\r\nIsPtr = %d IsHWnd = %d", 0, _GUICtrlTreeView_GetItemHandle($folderHistory, $selectedTreeItem), _
 ;~             IsPtr(_GUICtrlTreeView_GetItemHandle($folderHistory, $selectedTreeItem)), IsHWnd(_GUICtrlTreeView_GetItemHandle($folderHistory, $selectedTreeItem))))
 		updateNewmanCmd()
+	EndIf
+	; Update Newman Command on any input to Tag Include Test field
+	If StringLen(GUICtrlRead($tagIncTest)) <> $prevTagLength Then
+		$prevTagLength = StringLen(GUICtrlRead($tagIncTest))
+		updateNewmanCmd()
+		_GUICtrlEdit_SetSel($tagIncTest,-1,0)
 	EndIf
 WEnd
 
@@ -368,6 +383,9 @@ Func scrollToTop()
 EndFunc
 
 Func updateNewmanCmd()
+	; _GUICtrlRichEdit changes focus, hence capturing the original focused field to revert the focus at end
+	$currFocus = ControlGetFocus($newmanRunnerHandle)
+
 	_GUICtrlRichEdit_SetText($cmd, "")
 
 	$selectedCollection = GUICtrlRead($collection)
@@ -379,11 +397,13 @@ Func updateNewmanCmd()
 	$selectedTemplate = GUICtrlRead($template)
 	$selectedCert = GUICtrlRead($sslCert)
 	$selectedKey = GUICtrlRead($sslKey)
+	$tagIncludeTest = GUICtrlRead($tagIncTest)
 	$certCommand = ""
 	$multiFolderCmds = BitAND(GUICtrlRead($ckbFolders), $GUI_CHECKED)
 	$groupsCmd = ""
 	$parallelCmd = ""
 	$seqCmd = ""
+	$tagCmd = ""
 
 	Local $cmdName = "newman-ext "
 	If ($multiFolderCmds = True) Then
@@ -409,14 +429,17 @@ Func updateNewmanCmd()
 			$seqCmd = " --seq "
 		EndIf
 	EndIf
+	If $tagIncludeTest <> "" Then
+		$tagCmd =  " --tag-includetest " & """" & $tagIncludeTest & """"
+	EndIf
 
-	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder
+	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder & $tagCmd
 	Local $newmanCmds[1] = [$newmanCmd]
 
 	For $i=1 to UBound($selectedFolders)-1
 		$selectedFolder =  " --folder " & """" & $selectedFolders[$i] & """"
 		if ($multiFolderCmds = True) Then
-			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder
+			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder & $tagCmd
 			_ArrayAdd($newmanCmds,$newmanCmd)
 		Else
 			$newmanCmd = $newmanCmd & $selectedFolder
@@ -429,6 +452,7 @@ Func updateNewmanCmd()
 	colorize()
 	_GUICtrlRichEdit_ResumeRedraw($cmd)
 	_GUICtrlRichEdit_SetScrollPos($cmd, 0, 0)
+	ControlFocus($newmanRunnerHandle,"",$currFocus) ; Set focus back to original field
 EndFunc
 
 Func colorize()
@@ -622,7 +646,9 @@ Func WM_NOTIFY($hWndGUI, $iMsgID, $wParam, $lParam)
             Switch $iEvent
 				Case $CB_CLICKED
 					$folderClicked = 1
-            EndSwitch
+			EndSwitch
+		Case $wParam = $tagIncTest
+			ConsoleWrite("Event on tagIncTest" & $iEvent)
     EndSelect
     $tagNMHDR = 0
     Return $GUI_RUNDEFMSG
