@@ -79,6 +79,7 @@ $ckbSeq = GUICtrlCreateCheckbox("Sequential", 376, 616, 97, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
 GUICtrlSetState(-1, $GUI_DISABLE)
 $lblTagIncTest = GUICtrlCreateLabel("Tag Include Test", 8, 584, 105, 20)
+$btnHistory = GUICtrlCreateButton("History", 504, 776, 105, 17)
 #EndRegion ### END Koda GUI section ###
 
 GUICtrlSetData($preCmd, "")
@@ -92,8 +93,10 @@ $cmd = _GUICtrlRichEdit_Create($runner, "", $cmdPos[0], $cmdPos[1], $cmdPos[2], 
 Dim $path, $collectionPath, $envPath, $templatePath, $collectionList, $envList, $templateList, $defaultSetting, $selectedSetting
 Dim $folderClicked
 Dim $folderHistory[1] = ["ID,OPERATION"]
+Dim $cmdHistory[1] = ["1"]
 $folderClicked = 0
 _ArrayDelete($folderHistory,0)
+_ArrayDelete($cmdHistory,0)
 
 if FileExists("settings.ini") = 0 Then
 	MsgBox($MB_ICONERROR,"Settings File","Settings file not found: settings.ini");
@@ -198,6 +201,9 @@ While 1
 			ClipPut(_GUICtrlRichEdit_GetText($cmd))
 		Case $tagIncTest
 			updateNewmanCmd()
+		Case $btnHistory
+;~ 			$hist = _ArrayToString($cmdHistory,@CRLF)
+			_ArrayDisplay($cmdHistory,"Command History","",80)
 	EndSwitch
 	If $folderClicked = 1 Then
 		$folderClicked = 0
@@ -269,7 +275,9 @@ Func Refresh()
 	GUICtrlSetState($ckbFolders, $GUI_CHECKED)
 	GUICtrlSetState($grpFolders, $GUI_DISABLE)
 	GUICtrlSetState($parallel, $GUI_DISABLE)
+	GUICtrlSetState($ckbSeq, $GUI_CHECKED)
 	GUICtrlSetState($ckbSeq, $GUI_DISABLE)
+
 	getFolders()
 	setFolderTree()
 	updateNewmanCmd()
@@ -528,6 +536,7 @@ Func executeNewman()
 			EndIf
 			$cmdtorun = $cmdtorun & "&&" & $newmanCmdToRun
 			If NOT $TEST_MODE Then
+				_ArrayAdd($cmdHistory,@YEAR&@MON&@MDAY&"_"&@HOUR&":"&@MIN&":"&@SEC&"."&@MSEC & "&&" & $cmdtorun & "&&",0,"&&")
 				Run( @COMSPEC & " /k " & $cmdtorun, "", @SW_SHOW)
 			EndIf
 		EndIf
