@@ -289,7 +289,7 @@
 		<object type="TAInput" name="sslCert">
 			<properties>
 				<property name="Left" vt="Int8">112</property>
-				<property name="Top" vt="Int16">416</property>
+				<property name="Top" vt="Int16">408</property>
 				<property name="Width" vt="Int16">433</property>
 				<property name="Height" vt="Int8">24</property>
 				<property name="TabOrder" vt="Int8">34</property>
@@ -302,7 +302,7 @@
 		<object type="TAInput" name="sslKey">
 			<properties>
 				<property name="Left" vt="Int8">112</property>
-				<property name="Top" vt="Int16">456</property>
+				<property name="Top" vt="Int16">440</property>
 				<property name="Width" vt="Int16">433</property>
 				<property name="Height" vt="Int8">24</property>
 				<property name="TabOrder" vt="Int8">27</property>
@@ -315,7 +315,7 @@
 		<object type="TALabel" name="lblCert">
 			<properties>
 				<property name="Left" vt="Int8">8</property>
-				<property name="Top" vt="Int16">416</property>
+				<property name="Top" vt="Int16">408</property>
 				<property name="Width" vt="Int8">81</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">SSL Cert File</property>
@@ -330,7 +330,7 @@
 		<object type="TALabel" name="lblKey">
 			<properties>
 				<property name="Left" vt="Int8">8</property>
-				<property name="Top" vt="Int16">456</property>
+				<property name="Top" vt="Int16">440</property>
 				<property name="Width" vt="Int8">80</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">SSL Key File</property>
@@ -345,7 +345,7 @@
 		<object type="TAButton" name="btnCertFile">
 			<properties>
 				<property name="Left" vt="Int16">560</property>
-				<property name="Top" vt="Int16">416</property>
+				<property name="Top" vt="Int16">408</property>
 				<property name="Width" vt="Int8">33</property>
 				<property name="Height" vt="Int8">25</property>
 				<property name="Caption" vt="String">F</property>
@@ -360,7 +360,7 @@
 		<object type="TAButton" name="btnKeyFile">
 			<properties>
 				<property name="Left" vt="Int16">560</property>
-				<property name="Top" vt="Int16">456</property>
+				<property name="Top" vt="Int16">440</property>
 				<property name="Width" vt="Int8">33</property>
 				<property name="Height" vt="Int8">25</property>
 				<property name="Caption" vt="String">F</property>
@@ -375,7 +375,7 @@
 		<object type="TAButton" name="btnCertClear">
 			<properties>
 				<property name="Left" vt="Int16">600</property>
-				<property name="Top" vt="Int16">416</property>
+				<property name="Top" vt="Int16">408</property>
 				<property name="Width" vt="Int8">41</property>
 				<property name="Height" vt="Int8">25</property>
 				<property name="Caption" vt="String">Clear</property>
@@ -390,7 +390,7 @@
 		<object type="TAButton" name="btnKeyClear">
 			<properties>
 				<property name="Left" vt="Int16">598</property>
-				<property name="Top" vt="Int16">456</property>
+				<property name="Top" vt="Int16">440</property>
 				<property name="Width" vt="Int8">41</property>
 				<property name="Height" vt="Int8">25</property>
 				<property name="Caption" vt="String">Clear</property>
@@ -479,7 +479,7 @@
 				<property name="Left" vt="Int16">552</property>
 				<property name="Top" vt="Int8">88</property>
 				<property name="Width" vt="Int8">97</property>
-				<property name="Height" vt="Int8">25</property>
+				<property name="Height" vt="Int8">17</property>
 				<property name="Caption" vt="String">Unselect All</property>
 				<property name="TabOrder" vt="Int8">35</property>
 				<property name="Color" vt="Ident">clBtnFace</property>
@@ -623,64 +623,6 @@
 			</properties>
 			<components/>
 		</object>
-		<object type="TALabel" name="Label1">
-			<properties>
-				<property name="Left" vt="Int16">520</property>
-				<property name="Top" vt="Int16">592</property>
-				<property name="Width" vt="Int8">90</property>
-				<property name="Height" vt="Int8">20</property>
-				<property name="Caption" vt="String">Group Folders</property>
-				<property name="TabOrder" vt="Int8">42</property>
-				<property name="HaveVariable" vt="False">False</property>
-				<property name="CtrlStyle" vt="Int32">1409417472</property>
-				<property name="CtrlExStyle" vt="Int8">0</property>
-				<property name="Resizing" vt="Set"/>
-			</properties>
-			<components/>
-		</object>
-		<object type="TAInput" name="grpFolders">
-			<properties>
-				<property name="Left" vt="Int16">488</property>
-				<property name="Top" vt="Int16">584</property>
-				<property name="Width" vt="Int8">25</property>
-				<property name="Height" vt="Int8">24</property>
-				<property name="Enabled" vt="False">False</property>
-				<property name="TabOrder" vt="Int8">43</property>
-				<property name="CtrlStyle" vt="Int32">1342374016</property>
-				<property name="CtrlExStyle" vt="Int16">512</property>
-				<property name="Resizing" vt="Set">DockHeight</property>
-			</properties>
-			<components/>
-		</object>
-		<object type="TALabel" name="Label2">
-			<properties>
-				<property name="Left" vt="Int16">520</property>
-				<property name="Top" vt="Int16">616</property>
-				<property name="Width" vt="Int8">50</property>
-				<property name="Height" vt="Int8">20</property>
-				<property name="Caption" vt="String">Parallel</property>
-				<property name="TabOrder" vt="Int8">44</property>
-				<property name="HaveVariable" vt="False">False</property>
-				<property name="CtrlStyle" vt="Int32">1409417472</property>
-				<property name="CtrlExStyle" vt="Int8">0</property>
-				<property name="Resizing" vt="Set"/>
-			</properties>
-			<components/>
-		</object>
-		<object type="TAInput" name="parallel">
-			<properties>
-				<property name="Left" vt="Int16">488</property>
-				<property name="Top" vt="Int16">608</property>
-				<property name="Width" vt="Int8">25</property>
-				<property name="Height" vt="Int8">24</property>
-				<property name="Enabled" vt="False">False</property>
-				<property name="TabOrder" vt="Int8">45</property>
-				<property name="CtrlStyle" vt="Int32">1342374016</property>
-				<property name="CtrlExStyle" vt="Int16">512</property>
-				<property name="Resizing" vt="Set">DockHeight</property>
-			</properties>
-			<components/>
-		</object>
 		<object type="TAButton" name="btnCopy">
 			<properties>
 				<property name="Left" vt="Int16">504</property>
@@ -693,23 +635,6 @@
 				<property name="CtrlStyle" vt="Int32">1342373888</property>
 				<property name="CtrlExStyle" vt="Int8">0</property>
 				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
-			</properties>
-			<components/>
-		</object>
-		<object type="TACheckbox" name="ckbSeq">
-			<properties>
-				<property name="Left" vt="Int16">376</property>
-				<property name="Top" vt="Int16">616</property>
-				<property name="Width" vt="Int8">97</property>
-				<property name="Height" vt="Int8">17</property>
-				<property name="Caption" vt="String">Sequential</property>
-				<property name="Checked" vt="True">True</property>
-				<property name="Enabled" vt="False">False</property>
-				<property name="State" vt="Ident">cbChecked</property>
-				<property name="TabOrder" vt="Int8">46</property>
-				<property name="CtrlStyle" vt="Int32">1342242819</property>
-				<property name="CtrlExStyle" vt="Int8">0</property>
-				<property name="Resizing" vt="Set">DockHeight</property>
 			</properties>
 			<components/>
 		</object>
@@ -733,7 +658,7 @@
 				<property name="Width" vt="Int8">105</property>
 				<property name="Height" vt="Int8">20</property>
 				<property name="Caption" vt="String">Tag Include Test</property>
-				<property name="TabOrder" vt="Int8">47</property>
+				<property name="TabOrder" vt="Int8">42</property>
 				<property name="HaveVariable" vt="False">False</property>
 				<property name="CtrlStyle" vt="Int32">1342308608</property>
 				<property name="CtrlExStyle" vt="Int8">0</property>
@@ -748,6 +673,83 @@
 				<property name="Width" vt="Int8">105</property>
 				<property name="Height" vt="Int8">17</property>
 				<property name="Caption" vt="String">History</property>
+				<property name="TabOrder" vt="Int8">43</property>
+				<property name="Color" vt="Ident">clBtnFace</property>
+				<property name="CtrlStyle" vt="Int32">1342373888</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockWidth, DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TACheckbox" name="ckbIgnore">
+			<properties>
+				<property name="Left" vt="Int8">112</property>
+				<property name="Top" vt="Int16">472</property>
+				<property name="Width" vt="Int16">137</property>
+				<property name="Height" vt="Int8">17</property>
+				<property name="Caption" vt="String">Ignore Redirects</property>
+				<property name="Checked" vt="True">True</property>
+				<property name="State" vt="Ident">cbChecked</property>
+				<property name="TabOrder" vt="Int8">44</property>
+				<property name="CtrlStyle" vt="Int32">1342242819</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TACheckbox" name="ckbInsecure">
+			<properties>
+				<property name="Left" vt="Int16">256</property>
+				<property name="Top" vt="Int16">472</property>
+				<property name="Width" vt="Int16">169</property>
+				<property name="Height" vt="Int8">17</property>
+				<property name="Caption" vt="String">Insecure</property>
+				<property name="Checked" vt="True">True</property>
+				<property name="State" vt="Ident">cbChecked</property>
+				<property name="TabOrder" vt="Int8">45</property>
+				<property name="CtrlStyle" vt="Int32">1342242819</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set">DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAInput" name="threads">
+			<properties>
+				<property name="Left" vt="Int16">576</property>
+				<property name="Top" vt="Int16">608</property>
+				<property name="Width" vt="Int8">33</property>
+				<property name="Height" vt="Int8">24</property>
+				<property name="Enabled" vt="False">False</property>
+				<property name="TabOrder" vt="Int8">46</property>
+				<property name="Text" vt="String">1</property>
+				<property name="CtrlStyle" vt="Int32">1342374016</property>
+				<property name="CtrlExStyle" vt="Int16">512</property>
+				<property name="Resizing" vt="Set">DockHeight</property>
+			</properties>
+			<components/>
+		</object>
+		<object type="TALabel" name="lblThreads">
+			<properties>
+				<property name="Left" vt="Int16">512</property>
+				<property name="Top" vt="Int16">616</property>
+				<property name="Width" vt="Int8">55</property>
+				<property name="Height" vt="Int8">20</property>
+				<property name="Caption" vt="String">Threads</property>
+				<property name="TabOrder" vt="Int8">47</property>
+				<property name="HaveVariable" vt="False">False</property>
+				<property name="CtrlStyle" vt="Int32">1342308608</property>
+				<property name="CtrlExStyle" vt="Int8">0</property>
+				<property name="Resizing" vt="Set"/>
+			</properties>
+			<components/>
+		</object>
+		<object type="TAButton" name="btnSelect">
+			<properties>
+				<property name="Left" vt="Int16">552</property>
+				<property name="Top" vt="Int8">112</property>
+				<property name="Width" vt="Int8">97</property>
+				<property name="Height" vt="Int8">17</property>
+				<property name="Caption" vt="String">Select All</property>
 				<property name="TabOrder" vt="Int8">48</property>
 				<property name="Color" vt="Ident">clBtnFace</property>
 				<property name="CtrlStyle" vt="Int32">1342373888</property>

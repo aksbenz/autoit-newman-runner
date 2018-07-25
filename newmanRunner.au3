@@ -22,7 +22,7 @@ Global Const $CB_CLICKED = -24
 Global Const $TEST_MODE = False
 Global Const $LOG_LEVEL = 1
 
-#Region ### START Koda GUI section ### Form=c:\users\aadm221\documents\workspace\esb-automation-tests_git\newmanrunner\runner.kxf
+#Region ### START Koda GUI section ###
 $runner = GUICreate("Newman Runner", 653, 798, 190, 109)
 $collection = GUICtrlCreateCombo("", 112, 56, 433, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
 $allFolders = GUICtrlCreateTreeView(112, 88, 433, 129, BitOR($GUI_SS_DEFAULT_TREEVIEW,$TVS_CHECKBOXES))
@@ -33,10 +33,10 @@ $reportPath = GUICtrlCreateInput("", 112, 328, 369, 24)
 $btnRepSelect = GUICtrlCreateButton("Select Folder", 448, 352, 97, 17)
 $btnDefaultRepPath = GUICtrlCreateButton("Default", 392, 352, 49, 17)
 $template = GUICtrlCreateCombo("", 112, 376, 433, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
-$btnCertFile = GUICtrlCreateButton("F", 560, 416, 33, 25)
-$btnCertClear = GUICtrlCreateButton("Clear", 600, 416, 41, 25)
-$btnKeyFile = GUICtrlCreateButton("F", 560, 456, 33, 25)
-$btnKeyClear = GUICtrlCreateButton("Clear", 598, 456, 41, 25)
+$btnCertFile = GUICtrlCreateButton("F", 560, 408, 33, 25)
+$btnCertClear = GUICtrlCreateButton("Clear", 600, 408, 41, 25)
+$btnKeyFile = GUICtrlCreateButton("F", 560, 440, 33, 25)
+$btnKeyClear = GUICtrlCreateButton("Clear", 598, 440, 41, 25)
 $preCmd = GUICtrlCreateEdit("", 32, 512, 569, 65, BitOR($ES_AUTOVSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
 GUICtrlSetData(-1, "preCmd")
 $tagIncTest = GUICtrlCreateInput("", 112, 584, 361, 24)
@@ -53,15 +53,15 @@ $lblReport = GUICtrlCreateLabel("Report Type", 8, 304, 80, 20)
 $lblTemplate = GUICtrlCreateLabel("HTML Template", 8, 376, 102, 20)
 $lblPreCmd = GUICtrlCreateLabel("Pre Commands to Run", 32, 496, 138, 20, $WS_CLIPSIBLINGS)
 $lblNewmanCmd = GUICtrlCreateLabel("Newman Cmd", 8, 616, 88, 20, $WS_CLIPSIBLINGS)
-$sslKey = GUICtrlCreateInput("", 112, 456, 433, 24)
-$lblCert = GUICtrlCreateLabel("SSL Cert File", 8, 416, 81, 20)
-$lblKey = GUICtrlCreateLabel("SSL Key File", 8, 456, 80, 20)
+$sslKey = GUICtrlCreateInput("", 112, 440, 433, 24)
+$lblCert = GUICtrlCreateLabel("SSL Cert File", 8, 408, 81, 20)
+$lblKey = GUICtrlCreateLabel("SSL Key File", 8, 440, 80, 20)
 $settings = GUICtrlCreateCombo("", 112, 0, 433, 25, BitOR($CBS_DROPDOWN,$CBS_AUTOHSCROLL))
 $lblBasePathValue = GUICtrlCreateLabel("Base Path", 112, 32, 66, 20)
 $lblSettings = GUICtrlCreateLabel("Settings", 8, 0, 52, 20)
 $lblBasePath = GUICtrlCreateLabel("Base Path", 8, 32, 66, 20)
-$sslCert = GUICtrlCreateInput("", 112, 416, 433, 24)
-$btnUnselect = GUICtrlCreateButton("Unselect All", 552, 88, 97, 25)
+$sslCert = GUICtrlCreateInput("", 112, 408, 433, 24)
+$btnUnselect = GUICtrlCreateButton("Unselect All", 552, 88, 97, 17)
 $btnUndo = GUICtrlCreateButton("Undo", 552, 200, 41, 17)
 $ckbFolders = GUICtrlCreateCheckbox("Separate Command for each Folder", 136, 616, 241, 17)
 GUICtrlSetState(-1, $GUI_CHECKED)
@@ -69,17 +69,16 @@ $btnCollapse = GUICtrlCreateButton("Collapse All", 552, 176, 97, 17)
 $btnExpand = GUICtrlCreateButton("Expand All", 552, 152, 97, 17)
 $lblReportPath = GUICtrlCreateLabel("Report Folder", 8, 336, 99, 20)
 $repPathExt = GUICtrlCreateInput("\newman", 480, 328, 65, 24, BitOR($GUI_SS_DEFAULT_INPUT,$ES_READONLY))
-$Label1 = GUICtrlCreateLabel("Group Folders", 520, 592, 90, 20, $WS_CLIPSIBLINGS)
-$grpFolders = GUICtrlCreateInput("", 488, 584, 25, 24)
-GUICtrlSetState(-1, $GUI_DISABLE)
-$Label2 = GUICtrlCreateLabel("Parallel", 520, 616, 50, 20, $WS_CLIPSIBLINGS)
-$parallel = GUICtrlCreateInput("", 488, 608, 25, 24)
-GUICtrlSetState(-1, $GUI_DISABLE)
-$ckbSeq = GUICtrlCreateCheckbox("Sequential", 376, 616, 97, 17)
-GUICtrlSetState(-1, $GUI_CHECKED)
-GUICtrlSetState(-1, $GUI_DISABLE)
 $lblTagIncTest = GUICtrlCreateLabel("Tag Include Test", 8, 584, 105, 20)
 $btnHistory = GUICtrlCreateButton("History", 504, 776, 105, 17)
+$ckbIgnore = GUICtrlCreateCheckbox("Ignore Redirects", 112, 472, 137, 17)
+GUICtrlSetState(-1, $GUI_CHECKED)
+$ckbInsecure = GUICtrlCreateCheckbox("Insecure", 256, 472, 169, 17)
+GUICtrlSetState(-1, $GUI_CHECKED)
+$threads = GUICtrlCreateInput("1", 576, 608, 33, 24)
+GUICtrlSetState(-1, $GUI_DISABLE)
+$lblThreads = GUICtrlCreateLabel("Threads", 512, 616, 55, 20)
+$btnSelect = GUICtrlCreateButton("Select All", 552, 112, 97, 17)
 #EndRegion ### END Koda GUI section ###
 
 GUICtrlSetData($preCmd, "")
@@ -91,10 +90,12 @@ $cmd = _GUICtrlRichEdit_Create($runner, "", $cmdPos[0], $cmdPos[1], $cmdPos[2], 
 ;~ TODO: Error if no sections in settings file
 
 Dim $path, $collectionPath, $envPath, $templatePath, $collectionList, $envList, $templateList, $defaultSetting, $selectedSetting
-Dim $folderClicked
+Dim $folderClicked, $folderEvent
 Dim $folderHistory[1] = ["ID,OPERATION"]
 Dim $cmdHistory[1] = ["1"]
 $folderClicked = 0
+$folderEvent = True
+
 _ArrayDelete($folderHistory,0)
 _ArrayDelete($cmdHistory,0)
 
@@ -136,25 +137,25 @@ While 1
 			getFolders()
 			setFolderTree()
 			updateNewmanCmd()
-		Case $env, $global, $template, $reporting, $grpFolders, $parallel
+		Case $env, $global, $template, $reporting
 			ConsoleWrite("ENV GLOBAL TEMP REP CLICKCED" & @CRLF)
 			updateNewmanCmd()
 		Case $ckbFolders
 			If (GUICtrlRead($ckbFolders) = $GUI_UNCHECKED) Then
-				GUICtrlSetState($grpFolders, $GUI_ENABLE)
-				GUICtrlSetState($parallel, $GUI_ENABLE)
-				GUICtrlSetState($ckbSeq, $GUI_ENABLE)
+				GUICtrlSetState($threads, $GUI_ENABLE)
 			Else
-				GUICtrlSetState($grpFolders, $GUI_DISABLE)
-				GUICtrlSetState($parallel, $GUI_DISABLE)
-				GUICtrlSetState($ckbSeq, $GUI_DISABLE)
+				GUICtrlSetState($threads, $GUI_DISABLE)
 			EndIf
 			updateNewmanCmd()
-		case $ckbSeq
+		case $threads, $ckbIgnore, $ckbInsecure
 			updateNewmanCmd()
 		Case $btnUnselect
 			_ArrayAdd($folderHistory, "ALL" & "," & "UNSELECT")
 			unselectAll()
+			updateNewmanCmd()
+		Case $btnSelect
+			_ArrayAdd($folderHistory, "ALL" & "," & "SELECT")
+			selectAll()
 			updateNewmanCmd()
 		Case $btnRefresh
 			Refresh()
@@ -273,10 +274,12 @@ Func Refresh()
 	GUICtrlSetData($template, _ArrayToString($templateList,"|",1) , $defaultTemplate)
 	GUICtrlSetData($reportPath,$path)
 	GUICtrlSetState($ckbFolders, $GUI_CHECKED)
-	GUICtrlSetState($grpFolders, $GUI_DISABLE)
-	GUICtrlSetState($parallel, $GUI_DISABLE)
-	GUICtrlSetState($ckbSeq, $GUI_CHECKED)
-	GUICtrlSetState($ckbSeq, $GUI_DISABLE)
+	GUICtrlSetData($threads, "1")
+	GUICtrlSetState($threads, $GUI_DISABLE)
+	GUICtrlSetState($ckbIgnore, $GUI_CHECKED)
+	GUICtrlSetState($ckbInsecure, $GUI_CHECKED)
+	GUICtrlSetData($tagIncTest,"")
+	GUICtrlSetData($preCmd,"set HTTP_PROXY=http://AUPriProxy.aia.biz:10938" & @CRLF & "set HTTPS_PROXY=http://AUPriProxy.aia.biz:10938" & @CRLF & "set NO_PROXY=melaiqlesb01.aia.biz,melaiqlesb01,vmmelqlwas75.aia.biz,vmmelqlwas75,melaiqlwas84.aia.biz,melaiqlwas84,melaiqlesb11.aia.biz,melaiqlesb11,melaiqlwas7b.aia.biz,melaiqlwas7b,melaiqlwas89.aia.biz,melaiqlwas89,melaiqlwas84.aia.biz,melaiqlwas84,10.48.61.136")
 
 	getFolders()
 	setFolderTree()
@@ -408,10 +411,10 @@ Func updateNewmanCmd()
 	$tagIncludeTest = GUICtrlRead($tagIncTest)
 	$certCommand = ""
 	$multiFolderCmds = BitAND(GUICtrlRead($ckbFolders), $GUI_CHECKED)
-	$groupsCmd = ""
-	$parallelCmd = ""
-	$seqCmd = ""
+	$threadsCmd = ""
 	$tagCmd = ""
+	$ignRdCmd = ""
+	$ignInsec = ""
 
 	Local $cmdName = "newman-ext "
 	If ($multiFolderCmds = True) Then
@@ -427,27 +430,27 @@ Func updateNewmanCmd()
 		$certCommand = " --ssl-client-cert " & """" & $selectedCert & """" & " --ssl-client-key " & """" & $selectedKey & """"
 	EndIf
 	If (GUICtrlRead($ckbFolders) = $GUI_UNCHECKED) Then
-		If (GUICtrlRead($grpFolders) <> "") Then
-			$groupsCmd = " --group " & GUICtrlRead($grpFolders)
-		EndIf
-		If (GUICtrlRead($parallel) <> "") Then
-			$parallelCmd = " --parallel " & GUICtrlRead($parallel)
-		EndIf
-		If (GUICtrlRead($ckbSeq) = $GUI_CHECKED AND GUICtrlGetState($ckbSeq) = ($GUI_ENABLE+$GUI_SHOW) ) Then
-			$seqCmd = " --seq "
+		If (Number(GUICtrlRead($threads)) > 0 AND GUICtrlGetState($threads) = ($GUI_ENABLE+$GUI_SHOW) ) Then
+			$threadsCmd = " --threads " & Number(GUICtrlRead($threads)) & " "
 		EndIf
 	EndIf
 	If $tagIncludeTest <> "" Then
-		$tagCmd =  " --tag-includetest " & """" & $tagIncludeTest & """"
+		$tagCmd =  " --tags " & """" & $tagIncludeTest & """"
+	EndIf
+	If (GUICtrlRead($ckbIgnore) = $GUI_CHECKED) Then
+		$ignRdCmd = " --ignore-redirects"
+	EndIf
+	If (GUICtrlRead($ckbInsecure) = $GUI_CHECKED) Then
+		$ignInsec = " -k"
 	EndIf
 
-	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder & $tagCmd
+	$newmanCmd = $cmdName & "run " & """" & $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " --reporter-html-template " & """"& $templatePath& "\" & $selectedTemplate & """" & $certCommand & $threadsCmd & $tagCmd & $ignInsec & $ignRdCmd & $selectedFolder
 	Local $newmanCmds[1] = [$newmanCmd]
 
 	For $i=1 to UBound($selectedFolders)-1
 		$selectedFolder =  " --folder " & """" & $selectedFolders[$i] & """"
 		if ($multiFolderCmds = True) Then
-			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " -k" & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $groupsCmd & $parallelCmd & $seqCmd & $selectedFolder & $tagCmd
+			$newmanCmd = $cmdName & "run " & """"& $collectionPath & "\" & $selectedCollection & """ -e " & """"& $envPath & "\" & $selectedEnv & """ -g " & """"& $envPath & "\" & $selectedGlobal & """" & $selectedReport & " --reporter-html-template " & """" & $templatePath & "\" & $selectedTemplate & """" & $certCommand & $threadsCmd & $tagCmd & $ignInsec & $ignRdCmd & $selectedFolder
 			_ArrayAdd($newmanCmds,$newmanCmd)
 		Else
 			$newmanCmd = $newmanCmd & $selectedFolder
@@ -457,7 +460,9 @@ Func updateNewmanCmd()
 
 	_GUICtrlRichEdit_PauseRedraw($cmd)
 	_GUICtrlRichEdit_SetText($cmd, _ArrayToString($newmanCmds,@CRLF))
-	colorize()
+	If ($multiFolderCmds = False) Then
+		colorize()
+	EndIf
 	_GUICtrlRichEdit_ResumeRedraw($cmd)
 	_GUICtrlRichEdit_SetScrollPos($cmd, 0, 0)
 	ControlFocus($newmanRunnerHandle,"",$currFocus) ; Set focus back to original field
@@ -545,7 +550,7 @@ Func executeNewman()
 EndFunc
 
 Func getCheckedFolders()
-	ConsoleWrite("**** getCheckedFolders ****" & @CRLF)
+;~ 	ConsoleWrite("**** getCheckedFolders ****" & @CRLF)
 	Local $item = _GUICtrlTreeView_GetFirstItem ($allFolders)
 	Local $folders[1] = [""]
 	Local $stack[1] = [$item]
@@ -582,6 +587,8 @@ Func getCheckedFolders()
 EndFunc
 
 Func unselectAll()
+	$folderClicked = 0
+	$folderEvent = False
 	Local $item = _GUICtrlTreeView_GetFirstItem ($allFolders)
 	Local $stack[1] = [$item]
 	Local $sibling = _GUICtrlTreeView_GetNextSibling($allFolders,$item)
@@ -601,9 +608,45 @@ Func unselectAll()
 		Next
 	WEnd
 	_GUICtrlTreeView_EndUpdate($allFolders)
+	$folderEvent = True
+	$folderClicked = 1
 EndFunc
 
+Func selectAll()
+	$folderClicked = 0
+	$folderEvent = False
+	Local $item = _GUICtrlTreeView_GetFirstItem ($allFolders)
+	Local $stack[1] = [$item]
+	Local $sibling = _GUICtrlTreeView_GetNextSibling($allFolders,$item)
+	While $sibling <> 0
+		_ArrayInsert($stack,0,$sibling)
+		$sibling = _GUICtrlTreeView_GetNextSibling($allFolders,$sibling)
+	WEnd
+
+	_GUICtrlTreeView_BeginUpdate ($allFolders)
+	While UBound($stack) > 0
+		$val = _ArrayPop($stack)
+
+		; If Expanded then select the children and NOT select the parent
+		; Select PARENT only if NOT expanded or no children
+		If (_GUICtrlTreeView_GetExpanded($allFolders,$val)) Then
+			$childCount = _GUICtrlTreeView_GetChildCount($allFolders, $val)
+			For $i=$childCount-1 to 0 Step -1
+				$child = _GUICtrlTreeView_GetItemByIndex($allFolders,$val,$i)
+				_ArrayAdd($stack,_GUICtrlTreeView_GetItemByIndex($allFolders,$val,$i))
+			Next
+		Else
+			_GUICtrlTreeView_SetChecked($allFolders, $val, True)
+		EndIf
+	WEnd
+	_GUICtrlTreeView_EndUpdate($allFolders)
+	$folderEvent = True
+	$folderClicked = 1
+EndFunc
+
+
 Func Undo()
+	$folderClicked = 0
 	Local $lastOp = _ArrayPop($folderHistory)
 	Local $items = StringSplit($lastOp,",")
 	Local $treeItem = $items[1]
@@ -618,15 +661,19 @@ Func Undo()
 		EndIf
 		_GUICtrlTreeView_SetChecked($allFolders,Ptr($treeItem),$value)
 	EndIf
+	$folderClicked = 1
 EndFunc
 
 Func undoAll()
+	$folderClicked = 0
 	_GUICtrlTreeView_BeginUpdate ($allFolders)
 	For $i=0 to UBound($folderHistory)-1
 		Local $items = StringSplit($folderHistory[$i],",")
 		If UBound($items) > 2 Then
-			If $items[1] = "ALL" Then
+			If $items[1] = "ALL" AND $items[2] = "UNSELECT" Then
 				unselectAll()
+			ElseIf $items[1] = "ALL" AND $items[2] = "SELECT" Then
+				selectAll()
 			ElseIf $items[1] <> "ALL" Then
 				Local $value
 				If $items[2] = "true" Then
@@ -639,6 +686,7 @@ Func undoAll()
 		EndIf
 	Next
 	_GUICtrlTreeView_EndUpdate($allFolders)
+	$folderClicked = 1
 EndFunc
 
 ;~ ConsoleWrite($items[1] & " - " & _GUICtrlTreeView_GetText($allFolders,Ptr($items[1])) & @CRLF)
@@ -654,7 +702,9 @@ Func WM_NOTIFY($hWndGUI, $iMsgID, $wParam, $lParam)
 		Case $wParam = $allFolders
             Switch $iEvent
 				Case $CB_CLICKED
-					$folderClicked = 1
+					if ($folderEvent = True) Then
+						$folderClicked = 1
+					EndIF
 			EndSwitch
 		Case $wParam = $tagIncTest
 			ConsoleWrite("Event on tagIncTest" & $iEvent)
