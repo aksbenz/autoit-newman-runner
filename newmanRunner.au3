@@ -279,7 +279,7 @@ Func Refresh()
 	GUICtrlSetState($ckbIgnore, $GUI_CHECKED)
 	GUICtrlSetState($ckbInsecure, $GUI_CHECKED)
 	GUICtrlSetData($tagIncTest,"")
-	GUICtrlSetData($preCmd,"set HTTP_PROXY=http://AUPriProxy.aia.biz:10938" & @CRLF & "set HTTPS_PROXY=http://AUPriProxy.aia.biz:10938" & @CRLF & "set NO_PROXY=melaiqlesb01.aia.biz,melaiqlesb01,vmmelqlwas75.aia.biz,vmmelqlwas75,melaiqlwas84.aia.biz,melaiqlwas84,melaiqlesb11.aia.biz,melaiqlesb11,melaiqlwas7b.aia.biz,melaiqlwas7b,melaiqlwas89.aia.biz,melaiqlwas89,melaiqlwas84.aia.biz,melaiqlwas84,10.48.61.136")
+	GUICtrlSetData($preCmd,"")
 
 	getFolders()
 	setFolderTree()
